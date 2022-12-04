@@ -21,19 +21,20 @@ app.use((req, res, next) => {
   next();
 });
 
-app.listen(PORT, () => {
-  console.log(`App listening on port ${PORT}`)
-})
 
-// подключаемся к серверу mongo
-mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => { console.log('DB OK') })
-  .then(() => { console.log('DB OK') })
+// подключаемся к серверу mongo и затем к базе
+mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => {
+  console.log('DB OK');
+  app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}`)
+  })
+})
   .catch((err) => { console.log(err) });
 
-  // глобальный обработчик ошибок
-  process.on('uncaughtException', (err, origin) => {
-    console.log(`${origin} ${err.name} c текстом ${err.message} не была обработана. Обратите внимание!`);
- });
+// глобальный обработчик ошибок
+process.on('uncaughtException', (err, origin) => {
+  console.log(`${origin} ${err.name} c текстом ${err.message} не была обработана. Обратите внимание!`);
+});
 
- // Выбросим синхронную ошибку
- throw new Error(`Ошибка, которую мы пропустили`);
+// Выбросим синхронную ошибку
+throw new Error(`Ошибка, которую мы пропустили`);
