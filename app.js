@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 });
 
 
-// подключаемся к серверу mongo и затем к базе
+// подключаемся к mongo и затем к серверу
 mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => {
   console.log('DB OK');
   app.listen(PORT, () => {
