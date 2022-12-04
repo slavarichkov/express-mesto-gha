@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const usersRouters = require('./routes/users.js'); // импортируем роутер пользователей
 const cardsRouters = require('./routes/cards.js'); // импортируем роутер карточек
 
-const { PORT = 3001, BASE_PATH } = process.env;
+const { PORT = 3000, BASE_PATH } = process.env;
 
 const app = express();
 
@@ -34,6 +34,6 @@ mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => { console.log('DB 
   process.on('uncaughtException', (err, origin) => {
     console.log(`${origin} ${err.name} c текстом ${err.message} не была обработана. Обратите внимание!`);
  });
- 
+
  // Выбросим синхронную ошибку
- throw new Error(`Ошибка, которую мы пропустили`); 
+ throw new Error(`Ошибка, которую мы пропустили`);
