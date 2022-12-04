@@ -23,7 +23,7 @@ app.use((req, res, next) => {
 
 
 // подключаемся к mongo и затем к серверу
-mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => {
+mongoose.connect('mongodb://127.0.0.1/mestodb', () => {
   console.log('DB OK');
   app.listen(PORT, () => {
     console.log(`App listening on port ${PORT}`)
@@ -33,7 +33,7 @@ mongoose.connect('mongodb://127.0.0.1/mestodb', (req, res) => {
 
 // глобальный обработчик ошибок
 process.on('uncaughtException', (err, origin) => {
-  console.log(`${origin} ${err.name} c текстом ${err.message} не была обработана. Обратите внимание!`);
+  console.log(`${origin} ${err} c текстом ${err.message} не была обработана. Обратите внимание!`);
 });
 
 // Выбросим синхронную ошибку
