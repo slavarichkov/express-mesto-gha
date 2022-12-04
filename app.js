@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const usersRouters = require('./routes/users.js'); // импортируем роутер пользователей
 const cardsRouters = require('./routes/cards.js'); // импортируем роутер карточек
 
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3000 } = process.env;
 
 const app = express();
 
