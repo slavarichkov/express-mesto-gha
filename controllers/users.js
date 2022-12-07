@@ -16,7 +16,7 @@ const getUser = (req, res) => {
         res.status(BAD_REQUEST).send({ message: 'Пользователь не найден' });
       } else { res.status(OK).send(user); }
     }).catch((err) => {
-      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` }) }
+      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` }); }
       res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` });
     });
 };
