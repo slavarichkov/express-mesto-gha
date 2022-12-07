@@ -1,6 +1,6 @@
 const user = require('../models/user');// импортируем модель(схему) юзера
 const {
-  OK, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND,
+  OK, BAD_REQUEST, INTERNAL_SERVER_ERROR,
 } = require('../utils/constant');// импортируем коды ошибок
 
 const getAllUsers = (req, res) => {
