@@ -3,13 +3,13 @@ const { // импортируем коды ошибок
   OK, BAD_REQUEST, INTERNAL_SERVER_ERROR,
 } = require('../utils/constant');
 
-const getAllUsers = (req, res) => {
+const getAllUsers = (req, res) => { // получить всех пользователей
   user.find({})
     .then((users) => res.status(OK).send({ data: users }))
     .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
 };
 
-const getUser = (req, res) => {
+const getUser = (req, res) => { // получить пользователя
   user.findById(req.params._id)
     .then((userData) => {
       if ((userData) === null) {
@@ -21,7 +21,7 @@ const getUser = (req, res) => {
     });
 };
 
-const createUser = (req, res) => {
+const createUser = (req, res) => { // создать пользователя
   const { name, about, avatar } = req.body;// получим из объекта запроса имя и описание пользователя
   user.create({ name, about, avatar }).then((newUser) => res.status(OK).send(newUser))
     .catch((err) => {
@@ -31,7 +31,7 @@ const createUser = (req, res) => {
     });
 };
 
-const updateAvatar = (req, res) => {
+const updateAvatar = (req, res) => { // обновить аватар
   const { avatar } = req.body; // получим из объекта запроса аватар
   user.findByIdAndUpdate(
     req.user._id,
@@ -53,7 +53,7 @@ const updateAvatar = (req, res) => {
     });
 };
 
-const updateUser = (req, res) => {
+const updateUser = (req, res) => { // обновить информацию о пользователе
   const { name, about } = req.body; // получим из объекта запроса имя и описание пользователя
   user.findByIdAndUpdate(
     req.user._id,
