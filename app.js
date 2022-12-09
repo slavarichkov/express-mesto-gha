@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 const usersRouters = require('./routes/users'); // импортируем роутер пользователей
 const cardsRouters = require('./routes/cards'); // импортируем роутер карточек
+const { BAD_REQUEST } = require('./utils/constant');// импортируем коды ошибок
 
 const { PORT = 3000 } = process.env;
 
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use('/', usersRouters); // подключаем роутер юзеров
 app.use('/', cardsRouters); // подключаем роутер карточек
+app.use('*', (req, res) => res.status(BAD_REQUEST).send({ message: 'Произошла ошибка' }));
 
 // подключаемся к mongo и затем к серверу
 mongoose.connect('mongodb://127.0.0.1/mestodb', () => {

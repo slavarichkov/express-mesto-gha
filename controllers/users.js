@@ -1,12 +1,12 @@
 const user = require('../models/user');// импортируем модель(схему) юзера
-const {
+const { // импортируем коды ошибок
   OK, BAD_REQUEST, INTERNAL_SERVER_ERROR,
-} = require('../utils/constant');// импортируем коды ошибок
+} = require('../utils/constant');
 
 const getAllUsers = (req, res) => {
   user.find({})
     .then((users) => res.status(OK).send({ data: users }))
-    .catch((err) => res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` }));
+    .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
 };
 
 const getUser = (req, res) => {
@@ -16,8 +16,8 @@ const getUser = (req, res) => {
         res.status(BAD_REQUEST).send({ message: 'Пользователь не найден' });
       } else { res.status(OK).send(user); }
     }).catch((err) => {
-      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` }); }
-      res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` });
+      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: 'Передан некорретный id пользователя' }); }
+      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
 
@@ -26,8 +26,8 @@ const createUser = (req, res) => {
   user.create({ name, about, avatar }).then((newUser) => res.status(OK).send(newUser))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` });
-      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` }); }
+        res.status(BAD_REQUEST).send({ message: 'Передан некорретный id пользователя' });
+      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }); }
     });
 };
 
@@ -45,11 +45,11 @@ const updateAvatar = (req, res) => {
       runValidators: true, // данные будут валидированы перед изменением
     },
 
-  ).then(() => res.status(OK).send('информация обновлена'))
+  ).then((updateData) => res.status(OK).send({ data: updateData }))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` });
-      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` }); }
+        res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }); }
     });
 };
 
@@ -68,11 +68,11 @@ const updateUser = (req, res) => {
       runValidators: true, // данные будут валидированы перед изменением
     },
 
-  ).then(() => res.status(OK).send('информация обновлена'))
+  ).then((updateData) => res.status(OK).send({ data: updateData }))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        res.status(BAD_REQUEST).send({ message: `Произошла ошибка ${err.message}` });
-      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: `Произошла ошибка ${err.message}` }); }
+        res.status(BAD_REQUEST).send({ message: 'Переданы некорректные данные' });
+      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }); }
     });
 };
 
