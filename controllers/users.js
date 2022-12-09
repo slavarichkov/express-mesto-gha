@@ -1,6 +1,6 @@
 const user = require('../models/user');// импортируем модель(схему) юзера
 const { // импортируем коды ошибок
-  OK, BAD_REQUEST, INTERNAL_SERVER_ERROR,
+  OK, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND,
 } = require('../utils/constant');
 
 const getAllUsers = (req, res) => { // получить всех пользователей
@@ -10,13 +10,13 @@ const getAllUsers = (req, res) => { // получить всех пользов�
 };
 
 const getUser = (req, res) => { // получить пользователя
-  user.findById(req.params._id)
+  user.findById(req.params.id)
     .then((userData) => {
       if ((userData) === null) {
         res.status(BAD_REQUEST).send({ message: 'Пользователь не найден' });
-      } else { res.status(OK).send(user); }
+      } else { res.status(OK).send(userData); }
     }).catch((err) => {
-      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: 'Передан некорретный id пользователя' }); }
+      if (err.name === 'CastError') { res.status(NOT_FOUND).send({ message: 'Передан некорретный id пользователя' }); }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };

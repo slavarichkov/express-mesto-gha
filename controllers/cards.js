@@ -23,10 +23,10 @@ const createCard = (req, res) => { // создать карточку
 };
 
 const deleteCard = (req, res) => {
-  const { cardId } = req.params.cardId; // получим из объекта запроса уникальный id карточки
+  const { cardId } = req.params; // получим из объекта запроса уникальный id карточки
   card.findByIdAndRemove(cardId) // удалить карточку
-    .then(() => {
-      if (!card) {
+    .then((deletedCard) => {
+      if (!deletedCard) {
         res.status(NOT_FOUND).send({ message: 'Карточка с таким id не найдена' });
       }
       res.status(OK).send({ message: 'Выполнено' });

@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 
 const usersRouters = require('./routes/users'); // импортируем роутер пользователей
 const cardsRouters = require('./routes/cards'); // импортируем роутер карточек
-const { BAD_REQUEST, NOT_FOUND } = require('./utils/constant');// импортируем коды ошибок
+const { NOT_FOUND } = require('./utils/constant');// импортируем коды ошибок
 
 const { PORT = 3000 } = process.env;
 
