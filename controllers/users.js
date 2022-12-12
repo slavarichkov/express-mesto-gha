@@ -13,10 +13,10 @@ const getUser = (req, res) => { // получить пользователя
   user.findById(req.params.id)
     .then((userData) => {
       if ((userData) === null) {
-        res.status(BAD_REQUEST).send({ message: 'Пользователь не найден' });
+        res.status(NOT_FOUND).send({ message: 'Пользователь не найден' });
       } else { res.status(OK).send(userData); }
     }).catch((err) => {
-      if (err.name === 'CastError') { res.status(NOT_FOUND).send({ message: 'Передан некорретный id пользователя' }); }
+      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: 'Передан некорретный id пользователя' }); }
       res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
     });
 };
