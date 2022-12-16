@@ -12,7 +12,7 @@ const getAllCards = (req, res) => { // получить все карточки
 
 const createCard = (req, res) => { // создать карточку
   const { name, link } = req.body; // получим из объекта запроса данные для карточки
-  const owner = req.user._id; // получить захардкоденный айди юзера
+  const owner = req.user._id; // получить айди юзера
   card.create({ name, link, owner }) // создать карточку в бд
     .then((newCard) => res.status(OK).send(newCard))
     .catch((err) => {
