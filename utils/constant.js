@@ -3,7 +3,8 @@ const BAD_REQUEST = 400; // переданы некорректные данны
 const NOT_FOUND = 404; // карточка или пользователь не найден
 const INTERNAL_SERVER_ERROR = 500; // ошибка по-умолчанию
 const CONFLICT = 409; // конфликт запроса с текущим состоянием сервера
+const UNAUTHORIZED = 401; // запрос не был применён
 
 module.exports = {
-  OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR, CONFLICT,
+  OK, BAD_REQUEST, NOT_FOUND, INTERNAL_SERVER_ERROR, CONFLICT, UNAUTHORIZED,
 };
