@@ -1,13 +1,17 @@
 const card = require('../models/card');// импортируем модель(схему) карточки
 
-const { // импортируем коды ошибок
-  OK, BAD_REQUEST, INTERNAL_SERVER_ERROR, NOT_FOUND,
-} = require('../utils/constant');
+// Импорт классов ошибок
+const BAD_REQUEST_M = require('../utils/mist/BAD_REQUEST');
+const INTERNAL_SERVER_ERROR_M = require('../utils/mist/INTERNAL_SERVER_ERROR');
+const NOT_FOUND_M = require('../utils/mist/NOT_FOUND');
+const FORBIDDEN_M = require('../utils/mist/NOT_FOUND');
+
+const { OK } = require('../utils/constant'); // импортируем коды ошибок
 
 const getAllCards = (req, res) => { // получить все карточки
   card.find({}) // поиск всех карточек в бд
     .then((cards) => res.status(OK).json(cards))
-    .catch(() => res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }));
+    .catch(() => new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
 };
 
 const createCard = (req, res) => { // создать карточку
@@ -17,25 +21,20 @@ const createCard = (req, res) => { // создать карточку
     .then((newCard) => res.status(OK).send(newCard))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        res.status(BAD_REQUEST).send({ message: 'Переданы некорретные данные' });
-      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }); }
+        throw new BAD_REQUEST_M('Переданы некорретные данные');
+      } else { throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка'); }
     });
 };
 
-const deleteCard = (req, res) => {
+const deleteCard = (req, res, next) => {
   const { cardId } = req.params; // получим из объекта запроса уникальный id карточки
-  card.findByIdAndRemove(cardId) // удалить карточку
-    .then((deletedCard) => {
-      if (!deletedCard) {
-        res.status(NOT_FOUND).send({ message: 'Карточка с таким id не найдена' });
-      }
-      res.status(OK).send({ message: 'Выполнено' });
+  card.findById(cardId)
+    .then((cardFound) => {
+      if (!cardFound.owner.equals(req.user._id) || !cardFound) {
+        throw new FORBIDDEN_M('неверный id карточки или пользователя');
+      } else { cardFound.remove(cardId); }
     })
-    .catch((err) => {
-      if ((err.name === 'CastError')) {
-        res.status(BAD_REQUEST).send({ message: 'Передан некорректный id' });
-      } else { res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' }); }
-    });
+    .catch(next);
 };
 
 const addLike = (req, res) => {
@@ -45,12 +44,12 @@ const addLike = (req, res) => {
     { new: true },
   )
     .then((foundCard) => {
-      if (!foundCard) { res.status(NOT_FOUND).send({ message: 'Карточка с таким id не найдена' }); }
+      if (!foundCard) { res.status(NOT_FOUND_M).send({ message: 'Карточка с таким id не найдена' }); }
       res.status(OK).send({ message: 'Выполнено' });
     })
     .catch((err) => {
-      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: 'Передан некорректный id' }); }
-      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+      if (err.name === 'CastError') { throw new BAD_REQUEST_M('Передан некорректный id'); }
+      throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка');
     });
 };
 
@@ -62,14 +61,14 @@ const deleteLike = (req, res) => {
   )
     .then((foundCard) => {
       if (!foundCard) {
-        res.status(NOT_FOUND).send({ message: 'Карточка с таким id не найдена' });
+        throw new NOT_FOUND_M('Карточка с таким id не найдена');
       } else {
         res.status(OK).send({ message: 'Выполнено' });
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') { res.status(BAD_REQUEST).send({ message: 'Передан некорректный id' }); }
-      res.status(INTERNAL_SERVER_ERROR).send({ message: 'Произошла ошибка' });
+      if (err.name === 'CastError') { throw new BAD_REQUEST_M('Передан некорректный id'); }
+      throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка');
     });
 };
 
