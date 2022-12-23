@@ -2,7 +2,7 @@ const bcrypt = require('bcryptjs'); // импортируем bcrypt для хэ
 const jwt = require('jsonwebtoken'); // импортируем модуль jsonwebtoken;
 const escape = require('escape-html'); // модуль, подставляющий мнемоники
 
-const user = require('../models/user');// импортируем модель(схему) юзера
+const user = require('../models/user'); // импортируем модель(схему) юзера
 const { OK } = require('../utils/constant'); // импортируем коды ошибок
 
 // Импорт классов ошибок
