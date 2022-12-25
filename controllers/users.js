@@ -53,7 +53,14 @@ const createUser = (req, res, next) => { // создать пользовате�
         password: hash,
       }).then((newUser) => {
         const { _id } = newUser;
-        res.status(OK).send(_id, name, avatar, email);
+        res.status(OK).send(
+          {
+            _id,
+            name,
+            avatar,
+            email,
+          },
+        );
         console.log(escape(name));
       })
         .catch((err) => {
