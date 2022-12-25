@@ -9,13 +9,13 @@ const {
 
 router.get('/users', getAllUsers); // получить всех пользователей
 
+router.get('/users/me', getUserSelf);
+
 router.get('/users/:id', celebrate({ // получить пользователя
   params: Joi.object().keys({
     id: Joi.string().length(24).hex().required(),
   }),
 }), getUser);
-
-router.get('/users/me', getUserSelf);
 
 router.patch('/users/me', celebrate({ // обновляет профиль
   body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
