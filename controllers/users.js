@@ -34,7 +34,7 @@ const getUser = (req, res, next) => { // получить пользовател
 const getUserSelf = (req, res, next) => {
   const { _id } = req.user;
   user.findById(_id).then((userFind) => {
-    res.status(OK).send(_id, userFind.name, userFind.avatar, userFind.email);
+    res.status(OK).send(userFind);
   })
     .catch(next);
 };
