@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const UNAUTHORIZED = require('../utils/mist/UNAUTHORIZED'); // импортируем класс ошибки
 
 module.exports = (req, res, next) => {
-  const token = req.cookies.jwt; // взять из токен из куки
+  const token = req.cookies.jwt; // взять токен из куки
   let payload; // объявляем payload
 
   try {
