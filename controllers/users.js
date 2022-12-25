@@ -111,7 +111,7 @@ const login = (req, res) => { // получает из запроса почту
         throw new UNAUTHORIZED_M('Неправильная почта или пароль');
       }
 
-      return bcrypt.compare(password, user.password); // проверить пароль, если пользователь найден
+      return bcrypt.compare(password, dataUser.password); // проверить пароль, если польз найден
     })
     .then((matched) => {
       if (!matched) { // хеши (пароль) не совпали
