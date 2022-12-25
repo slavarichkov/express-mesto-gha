@@ -114,7 +114,7 @@ const login = (req, res) => { // получает из запроса почту
       return bcrypt.compare(password, dataUser.password) // проверить пароль, если польз найден
         .then((matched) => {
           if (!matched) { // хеши (пароль) не совпали
-            throw new NOT_FOUND_M('Неправильная почта или пароль');
+            throw new UNAUTHORIZED_M('Неправильная почта или пароль');
           }
           // если совпали, то создадим токен
           const token = jwt.sign({ _id: user._id }, 'e70c5d15f42ff6749dd9a1140d7efc49', { expiresIn: '7d' });
