@@ -34,7 +34,7 @@ app.use(requestLogger); // подключаем логгер запросов
 
 // роуты, не требуещие авторизации
 
-app.post('/users', celebrate({ // создать пользователя
+app.post('/signup', celebrate({ // создать пользователя
   body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
