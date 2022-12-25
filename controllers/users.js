@@ -80,7 +80,7 @@ const updateAvatar = (req, res, next) => { // обновить аватар
     });
 };
 
-const updateUser = (req, res) => { // обновить информацию о пользователе
+const updateUser = (req, res, next) => { // обновить информацию о пользователе
   const { name, about } = req.body; // получим из объекта запроса имя и описание пользователя
   user.findByIdAndUpdate(
     req.user._id,
@@ -98,7 +98,7 @@ const updateUser = (req, res) => { // обновить информацию о �
   ).then((updateData) => res.status(OK).send({ data: updateData }))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        throw new BAD_REQUEST_M('Переданы некорректные данные');
+        next(new BAD_REQUEST_M('Переданы некорректные данные'));
       } else { throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка'); }
     });
 };
