@@ -15,11 +15,7 @@ router.get('/users/:id', celebrate({ // получить пользовател�
   }),
 }), getUser);
 
-router.get('/users/me', celebrate({ // получить информацию о текущем пользователе
-  params: Joi.object().keys({
-    id: Joi.string().length(24).hex().required(),
-  }),
-}), getUserSelf);
+router.get('/users/me', getUserSelf);
 
 router.patch('/users/me', celebrate({ // обновляет профиль
   body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
