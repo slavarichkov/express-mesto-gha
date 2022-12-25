@@ -31,6 +31,14 @@ const getUser = (req, res, next) => { // получить пользовател
     });
 };
 
+const getUserSelf = (req, res, next) => {
+  const { _id } = req.user;
+  user.findById(_id).then((userFind) => {
+    res.status(OK).send(_id, userFind.name, userFind.avatar, userFind.email);
+  })
+    .catch(next);
+};
+
 const createUser = (req, res, next) => { // создать пользователя
   const { // получим из объекта запроса имя и описание пользователя
     name, about, avatar, email, password,
@@ -133,5 +141,5 @@ const login = (req, res, next) => { // получает из запроса по
 };
 
 module.exports = {
-  getUser, getAllUsers, createUser, updateAvatar, updateUser, login,
+  getUser, getAllUsers, createUser, updateAvatar, updateUser, login, getUserSelf,
 };
