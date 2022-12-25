@@ -54,7 +54,7 @@ const addLike = (req, res, next) => {
     });
 };
 
-const deleteLike = (req, res) => {
+const deleteLike = (req, res, next) => {
   card.findByIdAndUpdate(
     req.params.cardId,
     { $pull: { likes: req.user._id } }, // убрать _id из массива
@@ -68,8 +68,8 @@ const deleteLike = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'CastError') { throw new BAD_REQUEST_M('Передан некорректный id'); }
-      throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка');
+      if (err.name === 'CastError') { next(new BAD_REQUEST_M('Передан некорректный id')); }
+      next(new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
     });
 };
 
