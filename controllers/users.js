@@ -99,7 +99,7 @@ const updateUser = (req, res, next) => { // обновить информаци�
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
         next(new BAD_REQUEST_M('Переданы некорректные данные'));
-      } else { throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка'); }
+      } else { next(err); }
     });
 };
 
