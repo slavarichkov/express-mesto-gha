@@ -58,7 +58,7 @@ const createUser = (req, res, next) => { // создать пользовате�
     });
 };
 
-const updateAvatar = (req, res) => { // обновить аватар
+const updateAvatar = (req, res, next) => { // обновить аватар
   const { avatar } = req.body; // получим из объекта запроса аватар
   user.findByIdAndUpdate(
     req.user._id,
@@ -75,8 +75,8 @@ const updateAvatar = (req, res) => { // обновить аватар
   ).then((updateData) => res.status(OK).send({ data: updateData }))
     .catch((err) => {
       if ((err.name === 'ValidationError')) {
-        throw new BAD_REQUEST_M('Переданы некорректные данные');
-      } else { throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка'); }
+        next(new BAD_REQUEST_M('Переданы некорректные данные'));
+      } else { next(err); }
     });
 };
 
