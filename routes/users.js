@@ -4,7 +4,7 @@ const router = require('express').Router(); // создали роутер
 const { celebrate, Joi } = require('celebrate'); // Валидация приходящих на сервер данных
 
 const {
-  getUser, getAllUsers, updateAvatar, updateUser,
+  getUser, getAllUsers, updateAvatar, updateUser, getUserSelf,
 } = require('../controllers/users'); // импортируем контроллеры пользователей
 
 router.get('/users', getAllUsers);
@@ -14,6 +14,12 @@ router.get('/users/:id', celebrate({ // получить пользовател�
     id: Joi.string().length(24).hex().required(),
   }),
 }), getUser);
+
+router.get('/users/me', celebrate({ // получить информацию о текущем пользователе
+  params: Joi.object().keys({
+    id: Joi.string().length(24).hex().required(),
+  }),
+}), getUserSelf);
 
 router.patch('/users/me', celebrate({ // обновляет профиль
   body: Joi.object().keys({ // применить Валидацию приходящих на сервер данных
