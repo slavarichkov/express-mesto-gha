@@ -111,21 +111,21 @@ const login = (req, res) => { // получает из запроса почту
         throw new UNAUTHORIZED_M('Неправильная почта или пароль');
       }
 
-      return bcrypt.compare(password, dataUser.password); // проверить пароль, если польз найден
-    })
-    .then((matched) => {
-      if (!matched) { // хеши (пароль) не совпали
-        throw new NOT_FOUND_M('Неправильная почта или пароль');
-      }
-      // если совпали, то создадим токен
-      const token = jwt.sign({ _id: user._id }, 'e70c5d15f42ff6749dd9a1140d7efc49', { expiresIn: '7d' });
-      res.cookie('jwt', token, { // сохранить в куки браузера, Первый аргумент — это ключ, второй — значение.
-        // token - наш JWT токен, который мы отправляем
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        sameSite: true, // браузер посылает куки, только если запрос сделан с того же домена
-      })
-        .end(); // если у ответа нет тела, можно использовать метод end
+      return bcrypt.compare(password, dataUser.password) // проверить пароль, если польз найден
+        .then((matched) => {
+          if (!matched) { // хеши (пароль) не совпали
+            throw new NOT_FOUND_M('Неправильная почта или пароль');
+          }
+          // если совпали, то создадим токен
+          const token = jwt.sign({ _id: user._id }, 'e70c5d15f42ff6749dd9a1140d7efc49', { expiresIn: '7d' });
+          res.cookie('jwt', token, { // сохранить в куки браузера, Первый аргумент — это ключ, второй — значение.
+            // token - наш JWT токен, который мы отправляем
+            maxAge: 3600000 * 24 * 7,
+            httpOnly: true,
+            sameSite: true, // браузер посылает куки, только если запрос сделан с того же домена
+          })
+            .end(); // если у ответа нет тела, можно использовать метод end
+        });
     })
     .catch(() => {
       throw new UNAUTHORIZED_M('Запрос не был применён');
