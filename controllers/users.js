@@ -117,7 +117,7 @@ const login = (req, res) => { // получает из запроса почту
             throw new UNAUTHORIZED_M('Неправильная почта или пароль');
           }
           // если совпали, то создадим токен
-          const token = jwt.sign({ _id: user._id }, 'e70c5d15f42ff6749dd9a1140d7efc49', { expiresIn: '7d' });
+          const token = jwt.sign({ _id: dataUser._id }, 'e70c5d15f42ff6749dd9a1140d7efc49', { expiresIn: '7d' });
           res.cookie('jwt', token, { // сохранить в куки браузера, Первый аргумент — это ключ, второй — значение.
             // token - наш JWT токен, который мы отправляем
             maxAge: 3600000 * 24 * 7,
