@@ -4,6 +4,7 @@ const card = require('../models/card');// импортируем модель(с
 const BAD_REQUEST_M = require('../utils/mist/BAD_REQUEST');
 const INTERNAL_SERVER_ERROR_M = require('../utils/mist/INTERNAL_SERVER_ERROR');
 const NOT_FOUND_M = require('../utils/mist/NOT_FOUND');
+const FORBIDDEN_M = require('../utils/mist/FORBIDDEN');
 
 const { OK } = require('../utils/constant'); // импортируем коды ошибок
 
@@ -30,9 +31,9 @@ const deleteCard = (req, res, next) => {
   card.findById(cardId)
     .then((cardFound) => {
       if (!cardFound) {
-        throw new NOT_FOUND_M('неверный id карточки');
+        throw new FORBIDDEN_M('неверный id карточки');
       } else if (!cardFound.owner.equals(req.user._id)) {
-        throw new NOT_FOUND_M('неверный id пользователя');
+        throw new FORBIDDEN_M('неверный id пользователя');
       } else { cardFound.remove(cardId).then(() => res.send({ message: 'Карточка удалена' })).catch(next); }
     })
     .catch(next);
