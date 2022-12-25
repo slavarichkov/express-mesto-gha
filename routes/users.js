@@ -7,7 +7,7 @@ const {
   getUser, getAllUsers, updateAvatar, updateUser, getUserSelf,
 } = require('../controllers/users'); // импортируем контроллеры пользователей
 
-router.get('/users', getAllUsers);
+router.get('/users', getAllUsers); // получить всех пользователей
 
 router.get('/users/:id', celebrate({ // получить пользователя
   params: Joi.object().keys({
