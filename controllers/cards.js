@@ -50,7 +50,7 @@ const addLike = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') { throw new BAD_REQUEST_M('Передан некорректный id'); }
-      next(new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
+      next(err);
     });
 };
 
@@ -69,7 +69,7 @@ const deleteLike = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') { next(new BAD_REQUEST_M('Передан некорректный id')); }
-      next(new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
+      next(err);
     });
 };
 

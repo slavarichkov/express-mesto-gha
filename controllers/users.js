@@ -18,7 +18,7 @@ const getAllUsers = (req, res) => { // получить всех пользов�
     .catch(() => new INTERNAL_SERVER_ERROR_M('Произошла ошибка'));
 };
 
-const getUser = (req, res) => { // получить пользователя
+const getUser = (req, res, next) => { // получить пользователя
   user.findById(req.params.id) // получить пользователя по айди
     .then((userData) => {
       if ((userData) === null) {
@@ -26,8 +26,8 @@ const getUser = (req, res) => { // получить пользователя
       } else { res.status(OK).send(userData); }
     }).catch((err) => {
       if (err.name === 'CastError') {
-        throw new BAD_REQUEST_M('Передан некорретный id пользователя');
-      } else { throw new INTERNAL_SERVER_ERROR_M('Произошла ошибка'); }
+        next(new BAD_REQUEST_M('Передан некорретный id пользователя'));
+      } else { next(err); }
     });
 };
 
