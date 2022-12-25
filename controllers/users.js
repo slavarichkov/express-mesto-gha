@@ -127,8 +127,8 @@ const login = (req, res, next) => { // получает из запроса по
             .send({ message: 'Логин произведен' }); // если у ответа нет тела
         });
     })
-    .catch(() => {
-      next(new UNAUTHORIZED_M('Запрос не был применён'));
+    .catch((err) => {
+      next(err);
     });
 };
 
