@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const { UNAUTHORIZED } = require('../utils/mist/UNAUTHORIZED'); // импортируем класс ошибки
+const UNAUTHORIZED = require('../utils/mist/UNAUTHORIZED'); // импортируем класс ошибки
 
 module.exports = (req, res, next) => {
   const { authorization } = req.headers; // достать авторизационный заголовок
