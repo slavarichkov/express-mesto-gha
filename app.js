@@ -28,7 +28,7 @@ mongoose.connect('mongodb://127.0.0.1/mestodb', () => {
 
 // мидлверы
 
-app.use(cookieParser());
+app.use(cookieParser()); // для работы с куки, хранить токен
 app.use(bodyParser.json());
 app.use(requestLogger); // подключаем логгер запросов
 
