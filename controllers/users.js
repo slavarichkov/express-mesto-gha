@@ -108,7 +108,7 @@ const login = (req, res) => { // получает из запроса почту
   user.findOne({ email }).select('+password') // проверить есть ли пользователь с такой почтой, select('+password') - добавляет пароль, заблокирован в схеме
     .then((dataUser) => {
       if (!dataUser) { // если не найден по почте
-        throw new NOT_FOUND_M('Неправильная почта или пароль');
+        throw new UNAUTHORIZED_M('Неправильная почта или пароль');
       }
 
       return bcrypt.compare(password, user.password); // проверить пароль, если пользователь найден
