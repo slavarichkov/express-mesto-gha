@@ -50,7 +50,7 @@ const addLike = (req, res, next) => {
       res.status(OK).send({ message: 'Выполнено' });
     })
     .catch((err) => {
-      if (err.name === 'CastError') { throw new BAD_REQUEST_M('Передан некорректный id'); }
+      if (err.name === 'CastError') { next(new BAD_REQUEST_M('Передан некорректный id')); }
       next(err);
     });
 };
